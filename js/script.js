@@ -14,6 +14,7 @@ let letters = letterButtonEls.toString();
 
 
 // Funktion som startar spelet vid knapptryckning, och då tillkallas andra funktioner
+
 function startGame () {
     generateRandomWord(); 
     createLetterBoxes();
@@ -22,6 +23,12 @@ function startGame () {
 startGameBtnEl.addEventListener('click', startGame);
 
 // Funktion som slumpar fram ett ord
+
+function generateRandomWord () {
+    selectedWord = wordList[Math.floor(Math.random() * wordList.length)];
+    console.log(selectedWord);
+}
+
 // Funktion som tar fram bokstävernas rutor, antal rutor beror på vilket ord slumptas fram
 // Funktion som körs när du trycker på bokstäverna och gissar bokstav
 // Funktion som ropas vid vinst eller förlust, gör olika saker beroende tillståndet

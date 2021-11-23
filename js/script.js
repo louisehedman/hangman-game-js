@@ -30,6 +30,23 @@ function generateRandomWord () {
 }
 
 // Funktion som tar fram bokstävernas rutor, antal rutor beror på vilket ord slumptas fram
+
+function createLetterBoxes () {
+    let answerArray = [];
+    for (let i = 0; i < selectedWord.length; i++ ){ 
+        answerArray[i] = ('_');
+        console.log(answerArray);
+         let liEl = document.createElement('LI');
+         let inputEl = document.createElement('INPUT');
+         inputEl.setAttribute('type', 'text');
+         inputEl.setAttribute('value', '_');
+         inputEl.disabled = true;
+         liEl.appendChild(inputEl);
+         letterBoxEls.appendChild(liEl);
+    }
+}
+
+
 // Funktion som körs när du trycker på bokstäverna och gissar bokstav
 // Funktion som ropas vid vinst eller förlust, gör olika saker beroende tillståndet
 // Funktion som inaktiverar/aktiverar bokstavsknapparna beroende på vilken del av spelet du är på

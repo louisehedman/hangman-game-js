@@ -35,7 +35,6 @@ function createLetterBoxes () {
     let answerArray = [];
     for (let i = 0; i < selectedWord.length; i++ ){ 
         answerArray[i] = ('_');
-        console.log(answerArray);
          let liEl = document.createElement('LI');
          let inputEl = document.createElement('INPUT');
          inputEl.setAttribute('type', 'text');

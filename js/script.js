@@ -48,5 +48,20 @@ function createLetterBoxes () {
 
 
 // Funktion som körs när du trycker på bokstäverna och gissar bokstav
+
+function guessLetter() {
+    for (let i of letterButtonEls) { 
+        i.addEventListener('click', function() {
+           (this).disabled = true; 
+            compareLetter(this['value']);
+        });
+    };   
+}
+ 
+guessLetter();
+
+
 // Funktion som ropas vid vinst eller förlust, gör olika saker beroende tillståndet
+
+
 // Funktion som inaktiverar/aktiverar bokstavsknapparna beroende på vilken del av spelet du är på

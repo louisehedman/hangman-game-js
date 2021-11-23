@@ -13,8 +13,14 @@ let letterBoxEls = document.querySelector('#letterBoxes > ul');    // Array av D
 let letters = letterButtonEls.toString();
 
 
-
 // Funktion som startar spelet vid knapptryckning, och då tillkallas andra funktioner
+function startGame () {
+    generateRandomWord(); 
+    createLetterBoxes();
+    (startGameBtnEl).disabled = true;
+}
+startGameBtnEl.addEventListener('click', startGame);
+
 // Funktion som slumpar fram ett ord
 // Funktion som tar fram bokstävernas rutor, antal rutor beror på vilket ord slumptas fram
 // Funktion som körs när du trycker på bokstäverna och gissar bokstav

@@ -60,6 +60,27 @@ function guessLetter() {
  
 guessLetter();
 
+// Funktion som jämför bokstäverna i det valda ordet med bokstaven man tryckt på 
+
+function compareLetter(letter){
+    letterBoxEls = document.querySelectorAll('#letterBoxes > ul > li');
+
+    for (let i = 0; i < selectedWord.length; i++){
+        if (selectedWord.charAt(i).toUpperCase() == letter.toUpperCase()) {
+            let liEl = document.createElement('LI');
+            let inputEl = document.createElement('INPUT');
+            inputEl.setAttribute('type', 'text');
+            inputEl.setAttribute('value', letter);
+            inputEl.disabled = true;
+            liEl.appendChild(inputEl);
+            letterBoxEls[i].replaceWith(liEl);
+        }
+    
+        else {
+            console.log(false);
+        }
+    }
+}
 
 // Funktion som ropas vid vinst eller förlust, gör olika saker beroende tillståndet
 

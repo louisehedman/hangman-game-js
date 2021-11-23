@@ -1,15 +1,18 @@
 // Globala variabler
 
-const wordList;      // Array: med spelets alla ord
-let selectedWord;    // Sträng: ett av orden valt av en slumpgenerator från arrayen ovan
+const wordList = ['apelsin', 'jordgubbe', 'äpple', 'passionsfrukt', 'persika', 'nektarin', 'hallon'];      // Array: med spelets alla ord
+let selectedWord = '';    // Sträng: ett av orden valt av en slumpgenerator från arrayen ovan
 
 let guesses = 0;     // Number: håller antalet gissningar som gjorts
-let hangmanImg;      // Sträng: sökväg till bild som kommer visas (och ändras) fel svar. t.ex. `/images/h1.png`
+let hangmanImg = 'images/h{guesses}.png';      // Sträng: sökväg till bild som kommer visas (och ändras) fel svar. t.ex. `/images/h1.png`
 
-let msgHolderEl;     // DOM-nod: Ger meddelande när spelet är över
-let startGameBtnEl;  // DOM-nod: knappen som du startar spelet med
-let letterButtonEls; // Array av DOM-noder: Knapparna för bokstäverna
-let letterBoxEls;    // Array av DOM-noder: Rutorna där bokstäverna ska stå
+let msgHolderEl = document.querySelector('#message');;     // DOM-nod: Ger meddelande när spelet är över
+let startGameBtnEl = document.querySelector('#startGameBtn');  // DOM-nod: knappen som du startar spelet med
+let letterButtonEls = document.querySelectorAll('#letterButtons > li > button[value]');; // Array av DOM-noder: Knapparna för bokstäverna
+let letterBoxEls = document.querySelector('#letterBoxes > ul');    // Array av DOM-noder: Rutorna där bokstäverna ska stå
+let letters = letterButtonEls.toString();
+
+
 
 // Funktion som startar spelet vid knapptryckning, och då tillkallas andra funktioner
 // Funktion som slumpar fram ett ord

@@ -101,3 +101,17 @@ function result() {
 }
 
 // Funktion som inaktiverar/aktiverar bokstavsknapparna beroende på vilken del av spelet du är på
+
+//Funktion för globala variabler
+function globalVariables (){
+    wrongGuesses = 0;
+    answerArray = [];
+    selectedWord = '';
+    hangmanImg = document.querySelector('#hangman').src = `images/h0.png`; 
+    msgHolderEl = document.querySelector('#message');
+    document.querySelector('#message').innerHTML = '';
+    letterBoxEls = document.querySelector('#letterBoxes > ul');
+    letterBoxEls.innerHTML = '';
+    document.querySelector('#guessStatus').innerHTML = `Antal felgissningar: ${wrongGuesses} av ${maxWrongGuesses}.`;
+    letterButtonEls = document.querySelectorAll('#letterButtons > li > button[value]'); 
+}

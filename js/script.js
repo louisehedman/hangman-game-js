@@ -2,10 +2,10 @@
 
 const wordList = ['apelsin', 'jordgubbe', 'äpple', 'passionsfrukt', 'persika', 'nektarin', 'hallon'];      // Array: med spelets alla ord
 let selectedWord = '';    // Sträng: ett av orden valt av en slumpgenerator från arrayen ovan
-
-let guesses = 0;     // Number: håller antalet gissningar som gjorts
+let wrongGuesses = 0;     // Number: håller antalet gissningar som gjorts
+const maxWrongGuesses = 6; // Number: maximalt antal felgissningar som får göras
+let answerArray = []; // Array: för att kunna skilja på listelement skapade i funktionerna createLetterBoxes och compareLetter
 let hangmanImg = 'images/h{guesses}.png';      // Sträng: sökväg till bild som kommer visas (och ändras) fel svar. t.ex. `/images/h1.png`
-
 let msgHolderEl = document.querySelector('#message');;     // DOM-nod: Ger meddelande när spelet är över
 let startGameBtnEl = document.querySelector('#startGameBtn');  // DOM-nod: knappen som du startar spelet med
 let letterButtonEls = document.querySelectorAll('#letterButtons > li > button[value]');; // Array av DOM-noder: Knapparna för bokstäverna
@@ -82,6 +82,22 @@ function compareLetter(letter){
 }
 
 // Funktion som ropas vid vinst eller förlust, gör olika saker beroende tillståndet
+function result() {
+    document.querySelector('#guessStatus').innerHTML = `Antal felgissningar: ${wrongGuesses} av ${maxWrongGuesses}.`;
 
+    if (answerArray.includes('_') === false){
+        document.querySelector('#message').innerHTML = 'Grattis! Du vann!!';
+        for (let i = 0; i < letterButtonDis.length; i++){
+            letterButtonDis[i].disabled = true;
+        }
+    }
+    
+    else if (wrongGuesses === maxWrongGuesses){ 
+        document.querySelector('#message').innerHTML = `Tyvärr, du förlorade. Det rätta ordet var ${selectedWord}.`;
+        for (let i = 0; i < letterButtonDis.length; i++){
+            letterButtonDis[i].disabled = true;
+        }
+    }
+}
 
 // Funktion som inaktiverar/aktiverar bokstavsknapparna beroende på vilken del av spelet du är på

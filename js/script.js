@@ -115,3 +115,14 @@ function globalVariables (){
     document.querySelector('#guessStatus').innerHTML = `Antal felgissningar: ${wrongGuesses} av ${maxWrongGuesses}.`;
     letterButtonEls = document.querySelectorAll('#letterButtons > li > button[value]'); 
 }
+
+function resetGame (){
+    for (let i = 0; i < letterButtonDis.length; i++){
+        letterButtonDis[i].disabled = false;
+    }
+    globalVariables();
+    generateRandomWord();
+    createLetterBoxes();
+}
+startGameBtnEl.addEventListener('click', resetGame);
+

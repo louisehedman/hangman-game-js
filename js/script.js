@@ -1,91 +1,90 @@
   
-// Globala variabler
+// Global variables
 
-const wordList = ['apelsin', 'jordgubbe', 'äpple', 'passionsfrukt', 'persika', 'nektarin', 'hallon', 'gurka', 'tomat', 'selleri', 'paprika', 'blåbär', 'hjortron'];    // Array: med spelets alla ord
-let selectedWord = '';    // Sträng: ett av orden valt av en slumpgenerator från arrayen ovan
-let wrongGuesses = 0;     // Number: håller antalet gissningar som gjorts
-const maxWrongGuesses = 6; // Number: maximalt antal felgissningar som får göras
-let answerArray = []; // Array: för att kunna skilja på listelement skapade i funktionerna createLetterBoxes och compareLetter
-let hangmanImg = '';   // Sträng: sökväg till bild som kommer visas (och ändras) vid fel svar.
+const wordList = ['apelsin', 'jordgubbe', 'äpple', 'passionsfrukt', 'persika', 'nektarin', 'hallon', 'gurka', 'tomat', 'selleri', 'paprika', 'blåbär', 'hjortron'];    // Array with all the words in the game, constant which means it can't be reassigned
+let selectedWord = '';    // String: One of the words chosen randomly by the computer, let instead of const, the value of the variable will change
+let wrongGuesses = 0;     // Number: Keeps the number of wrong guesses
+const maxWrongGuesses = 6; // Number: The maximum of wrong guesses allowed
+let answerArray = []; // Array: To separate list elements made in the funktions createLetterBoxes and compareLetter
+let hangmanImg = '';   // Sträng: Search path to image that will show and change when guess is wrong
 
-let msgHolderEl = document.querySelector('#message');     // DOM-nod: Ger meddelande när spelet är över
-let guessStatusEl = document.querySelector('#guessStatus'); // DOM-nod: Visar hur många felgissningar som gjorts
-let startGameBtnEl = document.querySelector('#startGameBtn'); // DOM-nod: knappen som du startar spelet med
-let letterButtonEls = document.querySelectorAll('#letterButtons > li > button[value]'); // Array av DOM-noder: Knapparna för bokstäverna
-const letterButtonDis =  document.querySelectorAll('#letterButtons > li > button'); // Array av DOM-noder: Reglerar om det går att trycka på bokstavsknapparna
-let letterBoxEls = document.querySelector('#letterBoxes > ul');  // Array av DOM-noder: Rutorna där bokstäverna ska stå
+let msgHolderEl = document.querySelector('#message');     // DOM node: Gives message when game is over
+let guessStatusEl = document.querySelector('#guessStatus'); // DOM node: Shows how many wrong guesses that have been made
+const startGameBtnEl = document.querySelector('#startGameBtn'); // DOM node: The button you start the game with
+let letterButtonEls = document.querySelectorAll('#letterButtons > li > button[value]'); // Array of DOM nodes: The buttons for the letters
+const letterButtonDis =  document.querySelectorAll('#letterButtons > li > button'); // Array of DOM nodes: Regulates if it is possible to press the letter buttons or not
+let letterBoxEls = document.querySelector('#letterBoxes > ul');  // Array of DOM nodes: The boxes where the right guessed letters will appear
 
 
-// Funktion som startar spelet vid knapptryckning, och då tillkallas andra funktioner
+// Function which start the game when button is pressed, and when pressed also calls other functions (generateRandomWord and createLetterBoxes)
 
 function startGame () {
-    document.querySelector('#startGameBtn').innerHTML = 'Starta om spelet';
+    document.querySelector('#startGameBtn').innerHTML = 'Starta om spelet'; // when pressed the button text "starta spelet" will change
     generateRandomWord(); 
     createLetterBoxes();
 }
 
-startGameBtnEl.addEventListener('click', startGame);
+startGameBtnEl.addEventListener('click', startGame); //the addEventListener method is used to listen for the click
 
 
-// Funktion som slumpar fram ett ord
+// Function that randomly pick a word from the wordList array
 
 function generateRandomWord () {
-    selectedWord = wordList[Math.floor(Math.random() * wordList.length)];
+    selectedWord = wordList[Math.floor(Math.random() * wordList.length)]; 
 }
 
-// Funktion som tar fram bokstävernas rutor, antal rutor beror på vilket ord slumptas fram
+// Function that will make the letter boxes appear, the number of them will depend on the number of letters in selectedWord
 
 function createLetterBoxes () {
     letterBoxEls = document.querySelector('#letterBoxes > ul'); 
-    for (let i = 0; i < selectedWord.length; i++ ){ 
-         let liEl = document.createElement('LI');
-         let inputEl = document.createElement('INPUT');
+    for (let i = 0; i < selectedWord.length; i++ ){ //for loop
+         let liEl = document.createElement('LI'); //creates list element in ul
+         let inputEl = document.createElement('INPUT'); //creates input field for type and value attributes
          inputEl.setAttribute('type', 'text');
-         inputEl.setAttribute('value', '_');
-         inputEl.disabled = true;
-         liEl.appendChild(inputEl);
-         letterBoxEls.appendChild(liEl);
-         answerArray[i] = ('_');
+         inputEl.setAttribute('value', '_'); //an underscore will show in the box as long as no letter is right guessed at that position
+         inputEl.disabled = true; //boolean, disable the input field so that it can not be changed by user
+         liEl.appendChild(inputEl); //appends the input element to the list element
+         letterBoxEls.appendChild(liEl); //appends the list elements to the unordered list
+         answerArray[i] = ('_'); //gives every list element an underscore (will not be shown) to be able to separate the list elements from the ones created when letter is guessed
     }
 }
 
-// Funktion som körs när du trycker på bokstäverna och gissar bokstav
+// Function that will run when you press letter buttons to guess letter
 
 function guessLetter() {
 
-    for (let i of letterButtonEls) { 
-        i.addEventListener('click', function guess () {
-            (this).disabled = true; 
-            compareLetter(this['value']);
-            //resetGame(i, letterButtonEls, guess);
+    for (let i of letterButtonEls) { //for of loop
+        i.addEventListener('click', function () { //the function will run when button is clicked
+            this.disabled = true; //makes the button pressed disabled
+            compareLetter(this['value']); //gives the compareLetter function access to the value from button pressed
         });
     }; 
 }
  
 guessLetter();
 
-// Funktion som jämför bokstäverna i det valda ordet med bokstaven man tryckt på 
+// Function that compare the letters in the selected word with the guessed letter 
 
-function compareLetter(letter){
+function compareLetter(letter){ //letter is the value from guessLetter
     letterBoxEls = document.querySelectorAll('#letterBoxes > ul > li');
-    let wrongGuess = true 
+    let wrongGuess = true //the default state for wrongGuess
     for (let i = 0; i < selectedWord.length; i++){
-        if (selectedWord.charAt(i).toUpperCase() == letter.toUpperCase()) {
-            wrongGuess = false; // det är inte felgissat
-            let liEl = document.createElement('LI');
+        if (selectedWord.charAt(i).toUpperCase() == letter.toUpperCase()) { //if the letter in the selected word and value from guessLetter match the following will run. To upperCase method is used to make both values uppercase
+            wrongGuess = false; // it is not wrong guessed
+            let liEl = document.createElement('LI'); //creates new list elements as in createLetterBoxes function
             let inputEl = document.createElement('INPUT');
             inputEl.setAttribute('type', 'text');
             inputEl.setAttribute('value', letter);
             inputEl.disabled = true;
             liEl.appendChild(inputEl);
-            letterBoxEls[i].replaceWith(liEl);
-            answerArray[i] = ('');
+            letterBoxEls[i].replaceWith(liEl); //replace the old list element with this new one at right index
+            answerArray[i] = (''); //the '_' on this position will now be an empty string ''
         } 
     }
-    if (answerArray.includes('_') === false){ // alla bokstäver är rätt
-        result();
+    if (answerArray.includes('_') === false){ // if all letters in the word is correctly guessed the result function will run
+        result(); 
     }
-     if (wrongGuess === true){ // det är felgissat
+    if (wrongGuess === true){ // if the guess is wrong the number of wrongGuesses will increase for each and the image will change, the result function will run
         wrongGuesses++;
         document.querySelector('#hangman').src = `images/h${wrongGuesses}.png`;
         result();
@@ -93,51 +92,48 @@ function compareLetter(letter){
 }
 
 
-//Funktion som ropas vid vinst eller förlust, gör olika saker beroende tillståndet
+//Function that will run when player wins or lose, which part depends on condition
 
 function result() {
-    document.querySelector('#guessStatus').innerHTML = `Antal felgissningar: ${wrongGuesses} av ${maxWrongGuesses}.`;
+    document.querySelector('#guessStatus').innerHTML = `Antal felgissningar: ${wrongGuesses} av ${maxWrongGuesses}.`; //manipulates the text in HTML element with id guessStatus with numbers from the variables
 
-    if (answerArray.includes('_') === false){
-        document.querySelector('#message').innerHTML = 'Grattis! Du vann!!';
-        for (let i = 0; i < letterButtonDis.length; i++){
-            letterButtonDis[i].disabled = true;
+    if (answerArray.includes('_') === false){ //if game is won this will run
+        document.querySelector('#message').innerHTML = 'Grattis! Du vann!!'; //The user will see this message
+        for (let i = 0; i < letterButtonDis.length; i++){ 
+            letterButtonDis[i].disabled = true; //the letter buttons will be disabled
         }
     }
-    else if (wrongGuesses === maxWrongGuesses){ 
-        document.querySelector('#message').innerHTML = `Tyvärr, du förlorade. Det rätta ordet var ${selectedWord}.`;
+    else if (wrongGuesses === maxWrongGuesses){  //if game is lost this will run
+        document.querySelector('#message').innerHTML = `Tyvärr, du förlorade. Det rätta ordet var ${selectedWord}.`; //The user will see this message
         for (let i = 0; i < letterButtonDis.length; i++){
             letterButtonDis[i].disabled = true;
         }
     }
 }
 
-// Funktion för globala variabler
+// Function for global variables, resets their values
 
 function globalVariables (){
     wrongGuesses = 0;
     answerArray = [];
     selectedWord = '';
     hangmanImg = document.querySelector('#hangman').src = `images/h0.png`; 
-    msgHolderEl = document.querySelector('#message');
     document.querySelector('#message').innerHTML = '';
-    letterBoxEls = document.querySelector('#letterBoxes > ul');
     letterBoxEls.innerHTML = '';
     document.querySelector('#guessStatus').innerHTML = `Antal felgissningar: ${wrongGuesses} av ${maxWrongGuesses}.`;
-    letterButtonEls = document.querySelectorAll('#letterButtons > li > button[value]'); 
 }
 
-//Funktion för att starta om spelet
+//Function for making the game able to restart 
 
 function resetGame (){
     for (let i = 0; i < letterButtonDis.length; i++){
-        letterButtonDis[i].disabled = false;
+        letterButtonDis[i].disabled = false; // no letter buttons will be disabled
     }
-    globalVariables();
+    globalVariables(); //these three functions will run again
     generateRandomWord();
     createLetterBoxes();
 }
-startGameBtnEl.addEventListener('click', resetGame);
+startGameBtnEl.addEventListener('click', resetGame); // the resetGame function will run when pressing the start game button, able to press whenever during the game
 
 
 

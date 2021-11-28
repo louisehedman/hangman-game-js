@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="sv">
 
 <head>
     <meta charset="UTF-8">
@@ -23,9 +23,9 @@
             </p>
         </article>
 
-        <button class="btn btn--stripe" type="button" id="startGameBtn">Starta spelet</button>
+        <button class="btn btn--stripe" type="button" id="startGameBtn">Starta spelet</button> <!-- The start game button-->
         <section id="gameBoard">
-            <ul id="letterButtons">
+            <ul id="letterButtons"> <!--The letter buttons -->
                 <li><button class="btn btn--stripe" type="button" value="A">A</button></li>
                 <li><button class="btn btn--stripe" type="button" value="B">B</button></li>
                 <li><button class="btn btn--stripe" type="button" value="C">C</button></li>
@@ -58,18 +58,18 @@
             </ul>
         </section>
         
-            <section class=gameprogress>
+            <section class="gameprogress"> <!-- A class for change of the layout on desktop screen -->
             <article id="letterBoxes">
-                <!--This is where the matched letters should appear, these should match the number of letters in the selected word -->
+                <!--This is where the matched letters appear, these match the number of letters in the selected word -->
                 <ul>
                 </ul>
             </article>
             <article id="message">
-                <!-- This is where messages should appear -->
+                <!-- This is where messages appear -->
             </article>
             <figure>
-                <figcaption id="guessStatus"></figcaption>
-                <img id="hangman" src="images/h0.png" alt="hangman">
+                <figcaption id="guessStatus"></figcaption> <!-- This is where the status of guesses appear -->
+                <img id="hangman" src="images/h0.png" alt="hangman"> <!-- This is the image of hangman, changing due to the number of wrong guesses -->
             </figure>
         </section>
         

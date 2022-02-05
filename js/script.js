@@ -33,19 +33,20 @@ function generateRandomWord () {
     selectedWord = wordList[Math.floor(Math.random() * wordList.length)]; 
 }
 
-// Function that will make the letter boxes appear, the number of them will depend on the number of letters in selectedWord
+/* Function that will make the letter boxes appear, the number of them will depend on the number
+of letters in selectedWord */
 
 function createLetterBoxes () {
     letterBoxEls = document.querySelector('#letterBoxes > ul'); 
-    for (let i = 0; i < selectedWord.length; i++ ){ //for loop
-         let liEl = document.createElement('LI'); //creates list element in ul
-         let inputEl = document.createElement('INPUT'); //creates input field for type and value attributes
+    for (let i = 0; i < selectedWord.length; i++ ){ 
+         let liEl = document.createElement('LI'); 
+         let inputEl = document.createElement('INPUT'); 
          inputEl.setAttribute('type', 'text');
-         inputEl.setAttribute('value', '_'); //an underscore will show in the box as long as no letter is right guessed at that position
-         inputEl.disabled = true; //boolean, disable the input field so that it can not be changed by user
-         liEl.appendChild(inputEl); //appends the input element to the list element
-         letterBoxEls.appendChild(liEl); //appends the list elements to the unordered list
-         answerArray[i] = ('_'); //gives every list element an underscore (will not be shown) to be able to separate the list elements from the ones created when letter is guessed
+         inputEl.setAttribute('value', '_'); 
+         inputEl.disabled = true; 
+         liEl.appendChild(inputEl); 
+         letterBoxEls.appendChild(liEl); 
+         answerArray[i] = ('_'); 
     }
 }
 
@@ -53,10 +54,10 @@ function createLetterBoxes () {
 
 function guessLetter() {
 
-    for (let i of letterButtonEls) { //for of loop
-        i.addEventListener('click', function () { //the function will run when button is clicked
-            this.disabled = true; //makes the button pressed disabled
-            compareLetter(this['value']); //gives the compareLetter function access to the value from button pressed
+    for (let i of letterButtonEls) { 
+        i.addEventListener('click', function () { 
+            this.disabled = true; 
+            compareLetter(this['value']); 
         });
     }; 
 }
@@ -65,26 +66,26 @@ guessLetter();
 
 // Function that compare the letters in the selected word with the guessed letter 
 
-function compareLetter(letter){ //letter is the value from guessLetter
+function compareLetter(letter){ 
     letterBoxEls = document.querySelectorAll('#letterBoxes > ul > li');
-    let wrongGuess = true //the default state for wrongGuess
+    let wrongGuess = true 
     for (let i = 0; i < selectedWord.length; i++){
-        if (selectedWord.charAt(i).toUpperCase() == letter.toUpperCase()) { //if the letter in the selected word and value from guessLetter match the following will run. To upperCase method is used to make both values uppercase
-            wrongGuess = false; // it is not wrong guessed
-            let liEl = document.createElement('LI'); //creates new list elements as in createLetterBoxes function
+        if (selectedWord.charAt(i).toUpperCase() == letter.toUpperCase()) { 
+            wrongGuess = false; 
+            let liEl = document.createElement('LI'); 
             let inputEl = document.createElement('INPUT');
             inputEl.setAttribute('type', 'text');
             inputEl.setAttribute('value', letter);
             inputEl.disabled = true;
             liEl.appendChild(inputEl);
-            letterBoxEls[i].replaceWith(liEl); //replace the old list element with this new one at right index
-            answerArray[i] = (''); //the '_' on this position will now be an empty string ''
+            letterBoxEls[i].replaceWith(liEl); 
+            answerArray[i] = (''); 
         } 
     }
-    if (answerArray.includes('_') === false){ // if all letters in the word is correctly guessed the result function will run
+    if (answerArray.includes('_') === false){ 
         result(); 
     }
-    if (wrongGuess === true){ // if the guess is wrong the number of wrongGuesses will increase for each and the image will change, the result function will run
+    if (wrongGuess === true){ 
         wrongGuesses++;
         document.querySelector('#hangman').src = `images/h${wrongGuesses}.png`;
         result();
@@ -95,16 +96,16 @@ function compareLetter(letter){ //letter is the value from guessLetter
 //Function that will run when player wins or lose, which part depends on condition
 
 function result() {
-    document.querySelector('#guessStatus').innerHTML = `Antal felgissningar: ${wrongGuesses} av ${maxWrongGuesses}.`; //manipulates the text in HTML element with id guessStatus with numbers from the variables
+    document.querySelector('#guessStatus').innerHTML = `Antal felgissningar: ${wrongGuesses} av ${maxWrongGuesses}.`; 
 
-    if (answerArray.includes('_') === false){ //if game is won this will run
-        document.querySelector('#message').innerHTML = 'Grattis! Du vann!!'; //The user will see this message
+    if (answerArray.includes('_') === false){ 
+        document.querySelector('#message').innerHTML = 'Grattis! Du vann!!'; 
         for (let i = 0; i < letterButtonDis.length; i++){ 
-            letterButtonDis[i].disabled = true; //the letter buttons will be disabled
+            letterButtonDis[i].disabled = true; 
         }
     }
-    else if (wrongGuesses === maxWrongGuesses){  //if game is lost this will run
-        document.querySelector('#message').innerHTML = `Tyvärr, du förlorade. Det rätta ordet var ${selectedWord}.`; //The user will see this message
+    else if (wrongGuesses === maxWrongGuesses){  
+        document.querySelector('#message').innerHTML = `Tyvärr, du förlorade. Det rätta ordet var ${selectedWord}.`; 
         for (let i = 0; i < letterButtonDis.length; i++){
             letterButtonDis[i].disabled = true;
         }
@@ -127,13 +128,13 @@ function globalVariables (){
 
 function resetGame (){
     for (let i = 0; i < letterButtonDis.length; i++){
-        letterButtonDis[i].disabled = false; // no letter buttons will be disabled
+        letterButtonDis[i].disabled = false; 
     }
-    globalVariables(); //these three functions will run again
+    globalVariables(); 
     generateRandomWord();
     createLetterBoxes();
 }
-startGameBtnEl.addEventListener('click', resetGame); // the resetGame function will run when pressing the start game button, able to press whenever during the game
+startGameBtnEl.addEventListener('click', resetGame); 
 
 
 

@@ -1,12 +1,12 @@
 @charset "UTF-8";
 
-* { /*sets default values for all elements*/
+* { 
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-body { /*sets values for the whole page*/
+body { 
   color: #666;
   font-family: sans-serif;
   display: -webkit-box;
@@ -22,7 +22,7 @@ body { /*sets values for the whole page*/
   min-height: 100vh;
 }
 
-header { /*values for the header part*/
+header { 
   background-color: silver;
   color: #fff;
   -webkit-box-flex: 0;
@@ -31,13 +31,13 @@ header { /*values for the header part*/
   flex: none;
 }
 
-header h1 { /*values for the main heading*/
+header h1 { 
   margin: 0;
   font-size: 4.5em;
   text-align: center;
 }
 
-main { /*values for the main part*/
+main { 
   flex: 1;
   padding: 1.5em;
 }
@@ -229,7 +229,7 @@ footer {
   border-top: 1px solid #000;
 }
 
-@media only screen and (min-width: 1000px) { /*values for screen 1000 px or bigger */
+@media only screen and (min-width: 1000px) { 
   h2 {
     font-size: 2em;
 }
